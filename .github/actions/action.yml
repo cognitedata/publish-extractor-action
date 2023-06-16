@@ -47,11 +47,20 @@ runs:
       with:
         script: |
           let command = '';
+          let exit_status = 0;
           switch('${{ inputs.command }}') {
             case 'publish':
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
-                process.exit(1)
+                exist_status = 1;
+              }
+              if ('${{ inputs.manifest }}'.trim() == '') {
+                core.error("Path to manifest file is required")
+                exist_status = 1;
+              }
+
+              if (exit_status != 0)  {
+                process.exit(exit_status)
               }
               break;
             case 'sync':

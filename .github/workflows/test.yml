@@ -15,6 +15,7 @@ jobs:
         with:
           command: publish
           no-verify: true
+          version: '0.0.1'
           artifactory_username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
           artifactory_password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
 
