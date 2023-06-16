@@ -51,6 +51,7 @@ runs:
             case 'publish':
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
+                process.exit(1)
               }
               break;
             case 'sync':
