@@ -78,7 +78,7 @@ runs:
               return command
 
             case 'sync':
-              let command = 'publish-extractor sync '
+              command = 'publish-extractor sync '
               if ('${{ inputs.manifest_path }}'.trim() == '') {
                 core.error("Path to manifest file is required")
                 process.exit(1)
@@ -91,7 +91,7 @@ runs:
               return command
 
             case 'validate':
-              let command = 'publish-extractor validate '
+              command = 'publish-extractor validate '
               if ('${{ inputs.manifest_path }}'.trim() == '') {
                 core.error("Path to manifest file is required")
                 process.exit(1)
