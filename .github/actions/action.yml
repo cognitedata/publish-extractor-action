@@ -54,7 +54,7 @@ runs:
             case 'publish':
               return script.publish('${{ inputs.manifest_path }}', '${{ inputs.version }}', '${{ inputs.no-verify }}', '${{ inputs.only-artifacts }}')
             case 'sync':
-              return ''
+              return script.sync('${{ inputs.manifest_path }}', '${{ inputs.no-verify }}')
             default:
               process.exit(1)
           }
