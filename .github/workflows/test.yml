@@ -13,9 +13,10 @@ jobs:
         uses: ./.github/actions
         id: testing-action
         with:
-          command: -h
+          command: publish
           no-verify: true
           artifactory_username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
           artifactory_password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
-      - name: testing
+
+      - name: testing output
         run: echo ${{ steps.testing-action.outputs.build-command }}

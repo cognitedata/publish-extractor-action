@@ -44,7 +44,13 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
-          return '${{ inputs.no-verify }}'
+          let command = '';
+          switch('${{ inputs.command }}') {
+            case 'publish':
+              if (${{ inputs.version }} === undefined) {
+                core.error("Version is required")
+              }
+          }
 
     - name: Install publisher
       shell: bash
