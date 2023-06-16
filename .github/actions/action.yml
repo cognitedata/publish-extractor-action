@@ -53,13 +53,12 @@ runs:
               command += 'publish '
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
-                exist_status = 1;
+                exist_status = 1
               }
               command += '--version ${{ inputs.version }} '
               if ('${{ inputs.manifest_path }}'.trim() == '') {
                 core.error("Path to manifest file is required")
-                exist_status = 1;
-                process.exit(exit_status);
+                process.exit(1)
               }
               command += '--manifest ${{ inputs.manifest_path }} '
               if ('${{ inputs.no-verify }}'.trim() === 'true') {
@@ -75,8 +74,10 @@ runs:
                 process.exit(exit_status)
               }
               break;
+
             case 'sync':
               break;
+
             case 'validate':
               break;
             case 'run-schema':
