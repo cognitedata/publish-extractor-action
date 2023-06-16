@@ -12,7 +12,7 @@ jobs:
         id: shell-type
         with:
           script: |
-            return core.runner
+            return runner.os
         
 
       - name: Ensure python
