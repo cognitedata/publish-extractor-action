@@ -52,12 +52,20 @@ runs:
             core.exit('command is required')
             process.exit(1)
           }
-          
+
+          function bool_check(prop, value) {
+            if (['true', 'yes', 'false', 'no', ''].indexOf(value) === -1) {
+              core.error('Invalid value passed for ' + prop + ', boolean expected');
+              process.exit(1)
+            }
+            return ['true', 'yes'].indexOf(value) ? 'true' : 'false'
+          }
+
           switch('${{ inputs.command }}') {
             case 'publish':
               let command = 'publish-extractor publish '
               if ('${{ inputs.version }}'.trim() == '') {
-                core.error("Version is required")
+                core.error("Version is required in semver format")
                 process.exit(1)
               }
               command += '--version ${{ inputs.version }} '
@@ -68,14 +76,10 @@ runs:
               }
               command += '--manifest ${{ inputs.manifest_path }} '
 
-              if ('${{ inputs.no-verify }}'.trim() === 'true') {
-                command += '--no-verify ${{ inputs.no-verify }} '
-              }
+              command += '--no-verify ' + bool_check('no-verify', ${{ inputs.no-verify }}) + ' '
 
-              if ('${{ inputs.only-artifacts }}'.trim() === 'true') {
-                command += '--only-artifacts ${{ inputs.only-artifacts }}'
-              }
-              return command
+              command += '--only-artifacts ' + bool_check('no-verify', ${{ inputs.no-verify }}) + ' '
+              return command.trim()
 
             case 'sync':
               command = 'publish-extractor sync '
@@ -83,12 +87,9 @@ runs:
                 core.error("Path to manifest file is required")
                 process.exit(1)
               }
-
               command += '--manifest ${{ inputs.manifest_path }} '
-              if ('${{ inputs.no-verify }}'.trim() === 'true') {
-                command += '--no-verify ${{ inputs.no-verify }} '
-              }
-              return command
+              command += '--no-verify ' + bool_check('no-verify', ${{ inputs.no-verify }}) + ' '
+              return command.trim()
 
             case 'validate':
               command = 'publish-extractor validate '
