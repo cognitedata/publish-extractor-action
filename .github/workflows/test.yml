@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: get os
         id: get-os
-        run: echo 'os=$(echo ${{ runner.os }})' >> $GITHUB_OUTPUT
+        run: echo "os=$(echo '${{ runner.os }}')" >> $GITHUB_OUTPUT
           
       - name: get shell type
         uses: actions/github-script@v6
