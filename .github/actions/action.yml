@@ -11,10 +11,22 @@ inputs:
     description: Artifactory password
     required: true
   command:
-    description: Publish action
+    description: 'Publish action including: publish,sync,run-schema,schema,validate'
     required: true
-  extra-commands:
-    description: Extra commands
+  mainfest:
+    description: Path to manifest file
+  config-files:
+    description: List of config files to validate
+  wrong-config-files:
+    description: List of config files that should fail to validate
+  extra-uris:
+    description: An optional list of URIs with trailing / to look for schemas in.
+  schema:
+    description: Input schema file
+  output:
+    description: Output schema file
+  no-verify:
+    description: Skip SSL verification
 runs:
   using: composite
   steps:
@@ -23,11 +35,16 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
 
+    - name: Build command
+      uses: actions/github-script@v6
+      with:
+        script: |
+          return '${{ inputs.no-verify }}'
+
     - name: Install publisher
       shell: bash
       run: pip install cognite-extractor-publisher --extra-index-url "https://${{ inputs.artifactory_username }}:${{ inputs.artifactory_password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
 
     - name: Run publisher command
       shell: bash
-      if: runner.os == 'Linux'
       run: publish-extractor ${{ inputs.command }}
