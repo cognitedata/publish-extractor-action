@@ -5,14 +5,16 @@ function bool_check(prop, value) {
   }
   return ['true', 'yes'].indexOf(value) ? 'true' : 'false'
 }
+
+
 module.exports = {
   verifyCommand: function(command) {
     command = command.trim()
     let exit_status = 0;
     if (command == '') {
-      core.exit('command is required')
+      core.error('command is required')
     } else if (['publish', 'sync', 'validate', 'run-schema', 'schema'].indexOf(command) === -1) {
-      core.exit('command ' + command + ' not supported')
+      core.error('command ' + command + ' not supported')
     }
     if (exit_status !== 0) {
       process.exit(1)
@@ -37,6 +39,16 @@ module.exports = {
     command += '--only-artifacts ' + bool_check('only-artifact', onlyArtifact) + ' '
 
     return command.trim()
+  },
+  sync: function(manifestPath, noVerify) {
+    let sync_command = 'publish-extractor sync '
+    if (manifestPath.trim() == '') {
+      core.error("Path to manifest file is required")
+      process.exit(1)
+    }
+    sync_command += '--manifest ' + manifestPath + ' '
+    sync_command += '--no-verify ' + bool_check('no-verify', noVerify) + ' '
+    return sync_command.trim()
   }
 }
 

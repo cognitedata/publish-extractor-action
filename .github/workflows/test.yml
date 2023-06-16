@@ -13,10 +13,10 @@ jobs:
         uses: ./.github/actions
         id: testing-action
         with:
-          command: publish
+          command: sync
           version: '0.0.1'
           no-verify: yes
-          manifest_path: /path/to/manifest
+          # manifest_path: /path/to/manifest
           only-artifacts: true
           artifactory_username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
           artifactory_password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
