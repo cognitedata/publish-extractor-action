@@ -47,15 +47,12 @@ runs:
       with:
         script: |
           let command = 'publish-extractor ';
-          let exit_status = 0;
           switch('${{ inputs.command }}') {
             case 'publish':
               command += 'publish '
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
-                exist_status = 1
-                console.log(exit_status)
-                process.exit(exit_status)
+                process.exit(1)
               }
               command += '--version ${{ inputs.version }} '
               if ('${{ inputs.manifest_path }}'.trim() == '') {
@@ -67,14 +64,11 @@ runs:
                 command += '--no-verify ${{ inputs.no-verify }} '
               }
 
+              console.log(${{ inputs.only-artifacts }})
               if ('${{ inputs.only-artifacts }}'.trim() === 'true') {
                 command += '--only-artifacts ${{ inputs.only-artifacts }}'
               }
 
-              if (exit_status !== 0)  {
-                core.warning('something')
-                process.exit(exit_status)
-              }
               break;
 
             case 'sync':
