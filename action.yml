@@ -76,18 +76,18 @@ runs:
       if: runner.os == 'Linux'
       run: |
         pip install cognite-extractor-publisher --extra-index-url "https://${{ inputs.artifactory-username }}:${{ inputs.artifactory-password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
-        bash -c ${{ steps.build-command.outputs.result }}
+        publish-extractor $(echo ${{ steps.build-command.outputs.result }})
 
     - name: Install publisher
       shell: bash
       if: runner.os == 'macOS'
       run: |
         pip install cognite-extractor-publisher --extra-index-url "https://${{ inputs.artifactory-username }}:${{ inputs.artifactory-password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
-        bash -c ${{ steps.build-command.outputs.result }}
+        publish-extractor $(echo ${{ steps.build-command.outputs.result }})
 
     - name: Install publisher
       shell: cmd
       if: runner.os == 'Windows'
       run: |
         pip install cognite-extractor-publisher --extra-index-url "https://${{ inputs.artifactory-username }}:${{ inputs.artifactory-password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
-        & ${{ steps.build-command.outputs.result }}
+        publish-extractor $(echo ${{ steps.build-command.outputs.result }})
