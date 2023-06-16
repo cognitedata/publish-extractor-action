@@ -18,25 +18,9 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: get os
-      id: get-os
-      run: echo "os=${{ runner.os }}" >> $GITHUB_OUTPUT
-        
-    - name: get shell type
-      uses: actions/github-script@v6
-      id: shell-type
-      with:
-        script: |
-          if '${{ steps.get-os.outputs.os }}' === 'Windows' {
-            return 'cmd'
-          } 
-          return 'bash'
-      
-
-    - name: Ensure python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+    # - name: get os
+    #   id: get-os
+    #   run: echo "os=${{ runner.os }}" >> $GITHUB_OUTPUT
 
     - name: Ensure python
       uses: action/setup-python@v4
@@ -45,5 +29,6 @@ runs:
       run: pip install cognite-extractor-publisher --extra-index-url "https://${{ input.artifactory_username }}:${{ input.artifactory_password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
 
     - name: Run publisher command
-      shell: ${{ steps.shell-type.outputs.result }}
+      shell: bash
+      if: runner.os == 'Linux'
       run: publish-extractor ${{ input.command }}
