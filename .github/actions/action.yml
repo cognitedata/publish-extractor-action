@@ -54,6 +54,7 @@ runs:
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
                 exist_status = 1
+                process.exit(exit_status)
               }
               command += '--version ${{ inputs.version }} '
               if ('${{ inputs.manifest_path }}'.trim() == '') {
