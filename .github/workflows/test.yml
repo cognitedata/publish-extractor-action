@@ -18,7 +18,9 @@ jobs:
         run: mkdir -p .github/actions
 
       - name: move actions and dependencies
-        run: cp action.yml script.js ./.github/actions/
+        run: |
+          cp action.yml ./.github/actions/
+          cp script.js  ./.github/actions/
 
       - name: testing
         uses: ./.github/actions
