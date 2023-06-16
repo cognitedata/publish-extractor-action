@@ -50,7 +50,7 @@ runs:
         script: |
           switch('${{ inputs.command }}') {
             case 'publish':
-              var command += 'publish-extractor publish '
+              var command = 'publish-extractor publish '
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
                 process.exit(1)
@@ -65,7 +65,6 @@ runs:
                 command += '--no-verify ${{ inputs.no-verify }} '
               }
 
-              console.log(${{ inputs.only-artifacts }})
               if ('${{ inputs.only-artifacts }}'.trim() === 'true') {
                 command += '--only-artifacts ${{ inputs.only-artifacts }}'
               }
