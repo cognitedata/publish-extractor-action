@@ -9,14 +9,14 @@ jobs:
     steps:
       - name: get os
         id: get-os
-        run: ${{ github.runner.os }}
+        run: echo 'os=$(echo ${{ runner.os }})' >> $GITHUB_OUTPUT
           
       - name: get shell type
         uses: actions/github-script@v6
         id: shell-type
         with:
           script: |
-            return 'value'
+            return ${{ steps.get-os.outputs.os }}
         
 
       - name: Ensure python
