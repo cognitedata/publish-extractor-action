@@ -13,7 +13,7 @@ inputs:
   command:
     description: 'Publish action including: publish,sync,run-schema,schema,validate'
     required: true
-  mainfest_path:
+  manifest_path:
     description: Path to manifest file
   version:
     description: Version (use semver!) for artifact to upload
@@ -29,6 +29,8 @@ inputs:
     description: Output schema file
   no-verify:
     description: Skip SSL verification
+  only-artifacts:
+    description: Only upload artifacts, do not update release or extractor info
 outputs:
   build-command:
     description: Some desc
@@ -82,6 +84,7 @@ runs:
               break;
             default:
               core.error('unrecognized command passed')
+            return command
           }
 
     - name: Install publisher
@@ -90,4 +93,4 @@ runs:
 
     - name: Run publisher command
       shell: bash
-      run: publish-extractor ${{ inputs.command }}
+      run: ${{ steps.build-command.outputs.result }}
