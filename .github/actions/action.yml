@@ -87,9 +87,9 @@ runs:
                 core.error("Path to manifest file is required")
                 process.exit(1)
               }
-              command += '--manifest ${{ inputs.manifest_path }} '
-              command += '--no-verify ' + bool_check('no-verify', ${{ inputs.no-verify }}) + ' '
-              return command.trim()
+              sync_command += '--manifest ${{ inputs.manifest_path }} '
+              sync_command += '--no-verify ' + bool_check('no-verify', ${{ inputs.no-verify }}) + ' '
+              return sync_command.trim()
 
             case 'validate':
               let validate_command = 'publish-extractor validate '
@@ -98,12 +98,12 @@ runs:
                 process.exit(1)
               }
 
-              command += '--manifest ${{ inputs.manifest_path }} '
+              validate_command += '--manifest ${{ inputs.manifest_path }} '
               if ('${{ inputs.config-files }}'.trim() !== '') {
                 let files = '${{ inputs.config-files }}'.trim().split(',')
-                command += '--config-files ${{ inputs.config-files }} '
+                validate_command += '--config-files ${{ inputs.config-files }} '
               }
-              return command
+              return validate_command
             case 'run-schema':
               break
             case 'schema': 
