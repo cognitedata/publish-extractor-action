@@ -1,4 +1,4 @@
-function bool_check(prop, value) {
+function bool_check(core, prop, value) {
   if (['true', 'yes', 'false', 'no', ''].indexOf(value) === -1) {
     core.error('Invalid value passed for ' + prop + ', boolean expected');
     process.exit(1)
@@ -8,7 +8,7 @@ function bool_check(prop, value) {
 
 
 module.exports = {
-  verifyCommand: function(command) {
+  verifyCommand: function(core, command) {
     command = command.trim()
     let exit_status = 0;
     if (command == '') {
@@ -20,7 +20,7 @@ module.exports = {
       process.exit(1)
     }
   },
-  publish: function(manifestPath, version, noVerify, onlyArtifact) {
+  publish: function(core, manifestPath, version, noVerify, onlyArtifact) {
     let command = 'publish-extractor publish '
     if (version.trim() == '') {
       core.error("Version is required in semver format")
@@ -34,20 +34,20 @@ module.exports = {
     }
     command += '--manifest ' + manifestPath.trim() + ' '
 
-    command += '--no-verify ' + bool_check('no-verify', noVerify) + ' '
+    command += '--no-verify ' + bool_check(core, 'no-verify', noVerify) + ' '
 
-    command += '--only-artifacts ' + bool_check('only-artifact', onlyArtifact) + ' '
+    command += '--only-artifacts ' + bool_check(core, 'only-artifact', onlyArtifact) + ' '
 
     return command.trim()
   },
-  sync: function(manifestPath, noVerify) {
+  sync: function(core, manifestPath, noVerify) {
     let sync_command = 'publish-extractor sync '
     if (manifestPath.trim() == '') {
       core.error("Path to manifest file is required")
       process.exit(1)
     }
     sync_command += '--manifest ' + manifestPath + ' '
-    sync_command += '--no-verify ' + bool_check('no-verify', noVerify) + ' '
+    sync_command += '--no-verify ' + bool_check(core, 'no-verify', noVerify) + ' '
     return sync_command.trim()
   }
 }
