@@ -1,24 +1,27 @@
 name: Publish extractors
 on:
-  pull_requests:
+  pull_request:
     branches:
       - main
 jobs:
   testing:
+    runs-on: ubuntu-latest
     steps:
       - name: get shell type
         uses: actions/github-script@v6
         id: shell-type
         with:
           script: |
-
+            return core.runner
         
 
       - name: Ensure python
-        uses: action/setup-python@v4
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ inputs.python-version }}
-        run: pip install cognite-extractor-publisher --extra-index-url "https://${{ input.artifactory_username }}:${{ input.artifactory_password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
+          python-version: 3.10
+      
+      - name: Install publisher
+        run: pip install cognite-extractor-publisher --extra-index-url "https://${{ secret.ARTIFACTORY_READONLY_TOKEN_USER }}:${{ secrets.ARTIFACTORY_READONLY_TOKEN }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
 
       - name: Run publisher command
         run: publish-extractor ${{ input.command }}
