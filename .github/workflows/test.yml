@@ -16,7 +16,7 @@ jobs:
         id: shell-type
         with:
           script: |
-            return ${{ steps.get-os.outputs.os }}
+            return '${{ steps.get-os.outputs.os }}'
         
 
       - name: Ensure python
