@@ -83,7 +83,7 @@ runs:
             case 'run-schema':
               break
             case 'schema': 
-              break;
+              break
             default:
               core.error('unrecognized command passed')
             return command
