@@ -46,7 +46,6 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
-          let a = inputs.manifest_path;
           let command = 'publish-extractor ';
           let exit_status = 0;
           switch('${{ inputs.command }}') {
@@ -63,6 +62,13 @@ runs:
                 process.exit(exit_status);
               }
               command += '--manifest ${{ inputs.manifest_path }} '
+              if ('${{ inputs.no-verify }}'.trim() === 'true') {
+                command += '--no-verify ${{ inputs.no-verify }} '
+              }
+
+              if ('${{ inputs.only-artifacts }}'.trim() === 'true') {
+                command += '--only-artifacts ${{ inputs.only-artifacts }}'
+              }
 
               if (exit_status !== 0)  {
                 core.warning('something')
