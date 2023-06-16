@@ -49,7 +49,7 @@ runs:
           let command = '';
           switch('${{ inputs.command }}') {
             case 'publish':
-              if (${{ inputs.version }} == undefined) {
+              if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
               }
               break;
