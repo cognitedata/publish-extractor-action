@@ -1,0 +1,21 @@
+artifacts:
+  - name: test.zip
+    path: artifacts/test_windows.zip
+    platform: windows
+    displayName: "Windows executable"
+
+versions:
+  "0.0.1":
+    description: Some form of changes
+    changelog:
+      added:
+        - Added some changes
+
+extractor:
+  externalId: test-extractor
+  name: Test extractor
+  description: Test extractor description
+  documentation: Some form of documentation
+  type: global
+  tags:
+  - test

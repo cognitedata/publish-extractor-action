@@ -1,49 +1,80 @@
-name: Publish extractors
+name: publish-extractor
 description: Publish extractors to CDF extractors catalog
 inputs:
   python-version:
     description: Python version to use
     default: '3.10'
-  artifactory_username:
+  artifactory-username:
     description: Artifactory username
     required: true
-  artifactory_password:
+  artifactory-password:
     description: Artifactory password
     required: true
   command:
-    description: Publish action
+    description: 'Publish action including: publish,sync,run-schema,schema,validate,source-systems'
     required: true
-  extra-commands:
-    description: Extra commands
+  manifest-path:
+    description: Path to manifest file
+  version:
+    description: Version (use semver!) for artifact to upload
+  config-files:
+    description: List of config files to validate
+  wrong-config-files:
+    description: List of config files that should fail to validate
+  extra-uris:
+    description: An optional list of URIs with trailing / to look for schemas in.
+  schema:
+    description: Input schema file
+  output:
+    description: Output schema file
+  no-verify:
+    description: Skip SSL verification
+  only-artifacts:
+    description: Only upload artifacts, do not update release or extractor info
+  abort-on-exists:
+    description: Abort when a release exists instead of updating the release
+  manifest-dir:
+    description: Path to directory where manifest files are
+outputs:
+  build-command:
+    description: Some desc
+    value: ${{ steps.build-command.outputs.result }}
 runs:
   using: composite
   steps:
-    - name: get os
-      id: get-os
-      run: echo "os=${{ runner.os }}" >> $GITHUB_OUTPUT
-        
-    - name: get shell type
-      uses: actions/github-script@v6
-      id: shell-type
-      with:
-        script: |
-          if '${{ steps.get-os.outputs.os }}' === 'Windows' {
-            return 'cmd'
-          } 
-          return 'bash'
-      
-
     - name: Ensure python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
-
-    - name: Ensure python
-      uses: action/setup-python@v4
-      with:
         python-version: ${{ inputs.python-version }}
-      run: pip install cognite-extractor-publisher --extra-index-url "https://${{ input.artifactory_username }}:${{ input.artifactory_password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
+
+    - name: Build command
+      id: build-command
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const script = require('./.github/actions/script.js')
+          script.verifyCommand(core, '${{ inputs.command }}')
+          switch('${{ inputs.command }}'.trim()) {
+            case 'publish':
+              return script.publish(core, '${{ inputs.manifest-path }}', '${{ inputs.version }}', '${{ inputs.no-verify }}', '${{ inputs.only-artifacts }}', '${{ inputs.abort-on-exists }}')
+            case 'sync':
+              return script.sync(core, '${{ inputs.manifest-path }}', '${{ inputs.no-verify }}')
+            case 'validate':
+              return script.validate(core, '${{ inputs.manifest-path }}', '${{ inputs.config}}', '${{ inputs.wrong-config-files }}')
+            case 'schema':
+              return script.schema(core, '${{ inputs.schema }}', '${{ inputs.output }}', '${{ inputs.extra-uris }}')
+            case 'run-schema':
+              return script.runSchema(core, '${{ inputs.schema }}', '${{ inputs.config-files }}')
+            case 'source-systems':
+              return script.sourceSystems(core, '${{ inputs.manifest-path }}', '${{ inputs.manifest-dir }}', '${{ inputs.no-verify }}')
+            default:
+              process.exit(1)
+          }
+
+    - name: Install publisher
+      shell: bash
+      run: pip install cognite-extractor-publisher --extra-index-url "https://${{ inputs.artifactory-username }}:${{ inputs.artifactory-password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
 
     - name: Run publisher command
-      shell: ${{ steps.shell-type.outputs.result }}
-      run: publish-extractor ${{ input.command }}
+      shell: bash
+      run: ${{ steps.build-command.outputs.result }}
