@@ -46,7 +46,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
-          let a = input.manifest;
+          let a = inputs.manifest_path;
           let command = 'publish-extractor ';
           let exit_status = 0;
           switch('${{ inputs.command }}') {
