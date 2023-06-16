@@ -60,6 +60,7 @@ runs:
               if ('${{ inputs.manifest_path }}'.trim() == '') {
                 core.error("Path to manifest file is required")
                 exist_status = 1;
+                process.exit(exit_status);
               }
               command += '--manifest ${{ inputs.manifest_path }} '
 
