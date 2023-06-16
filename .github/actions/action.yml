@@ -64,6 +64,7 @@ runs:
               command += '--manifest ${{ inputs.manifest_path }} '
 
               if (exit_status !== 0)  {
+                core.warning('something')
                 process.exit(exit_status)
               }
               break;
