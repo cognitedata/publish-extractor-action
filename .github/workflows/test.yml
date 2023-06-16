@@ -7,12 +7,16 @@ jobs:
   testing:
     runs-on: ubuntu-latest
     steps:
+      - name: get os
+        id: get-os
+        run: ${{ github.runner.os }}
+          
       - name: get shell type
         uses: actions/github-script@v6
         id: shell-type
         with:
           script: |
-            return github.runner.os
+            return 'value'
         
 
       - name: Ensure python
