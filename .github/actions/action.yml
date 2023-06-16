@@ -24,6 +24,7 @@ runs:
         python-version: ${{ inputs.python-version }}
 
     - name: Install publisher
+      shell: bash
       run: pip install cognite-extractor-publisher --extra-index-url "https://${{ input.artifactory_username }}:${{ input.artifactory_password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
 
     - name: Run publisher command
