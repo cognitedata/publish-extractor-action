@@ -17,7 +17,7 @@ jobs:
           no-verify: true
           version: '0.0.1'
           manifest_path: /path/to/manifest
-          only-artifacts: true
+          only-artifacts: yes
           artifactory_username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
           artifactory_password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
 
