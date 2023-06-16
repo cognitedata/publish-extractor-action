@@ -12,6 +12,7 @@ jobs:
       - name: testing
         uses: ./.github/actions
         with:
+          command: -h
+          no-verify: true
           artifactory_username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
           artifactory_password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
-          command: -h
