@@ -1,0 +1,36 @@
+name: Publish extractors
+description: Publish extractors to CDF extractors catalog
+inputs:
+  python-version:
+    description: Python version to use
+    default: '3.10'
+  artifactory_username:
+    description: Artifactory username
+    required: true
+  artifactory_password:
+    description: Artifactory password
+    required: true
+  command:
+    description: Publish action
+    required: true
+  extra-commands:
+    description: Extra commands
+runs:
+  using: composite
+  steps:
+    - name: get shell type
+      uses: actions/github-script@v6
+      id: shell-type
+      with:
+        script: |
+
+      
+
+    - name: Ensure python
+      uses: action/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
+      run: pip install cognite-extractor-publisher --extra-index-url "https://${{ input.artifactory_username }}:${{ input.artifactory_password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
+
+    - name: Run publisher command
+      run: publish-extractor ${{ input.command }}
