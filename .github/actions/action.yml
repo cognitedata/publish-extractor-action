@@ -47,9 +47,20 @@ runs:
           let command = '';
           switch('${{ inputs.command }}') {
             case 'publish':
-              if (${{ inputs.version }} === undefined) {
+              if (${{ inputs.version }} == undefined) {
                 core.error("Version is required")
               }
+              break;
+            case 'sync':
+              break;
+            case 'validate':
+              break;
+            case 'run-schema':
+              break;
+            case 'schema': 
+              break;
+            default:
+              core.error('unrecognized command passed')
           }
 
     - name: Install publisher
