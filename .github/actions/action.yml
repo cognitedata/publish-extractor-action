@@ -43,6 +43,10 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
 
+    - name: pwd
+      shell: bash
+      run: ls .github/actions
+
     - name: Build command
       id: build-command
       uses: actions/github-script@v6
