@@ -49,7 +49,7 @@ runs:
       with:
         script: |
           const script = require('./.github/actions/script.js')
-          script.verifyCommand(${{ inputs.command }})
+          script.verifyCommand('${{ inputs.command }}')
           switch('${{ inputs.command }}') {
             case 'publish':
               return script.publish('${{ inputs.manifest_path }}', '${{ inputs.version }}', '${{ inputs.no-verify }}', '${{ inputs.only-artifacts }}')
