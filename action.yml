@@ -90,4 +90,4 @@ runs:
       if: runner.os == 'Windows'
       run: |
         pip install cognite-extractor-publisher --extra-index-url "https://${{ inputs.artifactory-username }}:${{ inputs.artifactory-password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
-        Invoke-Expression ${{ steps.build-command.outputs.result }}
+        & ${{ steps.build-command.outputs.result }}
