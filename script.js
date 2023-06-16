@@ -31,7 +31,7 @@ module.exports = {
    * @returns 
    */
   publish: function(core, manifestPath, version, noVerify, onlyArtifact, abortOnExists) {
-    let command = 'publish '
+    let command = 'publish-extractor publish '
     if (version.trim() == '') {
       core.error("Version is required in semver format")
       process.exit(1)
@@ -61,7 +61,7 @@ module.exports = {
    * @returns {string}
    */
   sync: function(core, manifestPath, noVerify, manifestDir) {
-    let command = 'sync '
+    let command = 'publish-extractor sync '
     if (manifest.trim() !== '' && manifestDir.trim() !== '') {
       core.error('You can provide either manifest or manifest dir')
       process.exit(1)
@@ -84,7 +84,7 @@ module.exports = {
    * @returns {string}
    */
   validate: function(core, manifestPath, configFiles, wrongConfigFiles) {
-    let command = 'validate '
+    let command = 'publish-extractor validate '
     if (manifestPath.trim() == '') {
       core.error("Path to manifest file is required")
       process.exit(1)
@@ -107,7 +107,7 @@ module.exports = {
    * @returns {string}
    */
   schema: function (core, schema, output, extraUris) {
-    let command = 'schema '
+    let command = 'publish-extractor schema '
     if (schema.trim() === '') {
       core.error("Path to schema file is required")
       process.exit(1)
@@ -129,7 +129,7 @@ module.exports = {
    * @returns {string}
    */
   runSchema: function(core, schema, configFiles) {
-    let command = 'run-schema '
+    let command = 'publish-extractor run-schema '
     if (schema.trim() === '') {
       core.error("Path to schema file is required")
       process.exit(1)
@@ -151,7 +151,7 @@ module.exports = {
    * @returns {string}
    */
   sourceSystems: function(core, manifest, manifestDir, noVerify) {
-    let command = 'source-systems '
+    let command = 'publish-extractor source-systems '
     if (manifest.trim() !== '' && manifestDir.trim() !== '') {
       core.error('You can provide either manifest or manifest dir')
       process.exit(1)
