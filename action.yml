@@ -77,4 +77,5 @@ runs:
 
     - name: Run publisher command
       shell: bash
-      run: ${{ steps.build-command.outputs.result }}
+      run: publish-extractor validate --manifest manifest.yml
+      # run: ${{ steps.build-command.outputs.result }}

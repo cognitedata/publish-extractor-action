@@ -96,7 +96,7 @@ module.exports = {
     if (wrongConfigFiles.trim() !== '') {
       command += '--config-files ' + wrongConfigFiles.trim().split(',').join(' ') + ' '
     }
-    return command
+    return command.trim()
   },
   /**
    * Generate schema
