@@ -24,6 +24,6 @@ jobs:
         run: pip install cognite-extractor-publisher --extra-index-url "https://${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}:${{ secrets.ARTIFACTORY_READONLY_TOKEN }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
 
       - name: Run publisher command
-        run: echo ${{ steps.outputs.shell-type.result }}
+        run: echo ${{ steps.shell-type.outputs.result }}
       # - name: Run publisher command
       #   run: publish-extractor ${{ input.command }}
