@@ -50,7 +50,7 @@ runs:
         script: |
           switch('${{ inputs.command }}') {
             case 'publish':
-              var command = 'publish-extractor publish '
+              let command = 'publish-extractor publish '
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
                 process.exit(1)
