@@ -48,9 +48,14 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
+          if ('${{ inputs.command }}'.trim() == '') {
+            core.exit('command is required')
+            process.exit(1)
+          }
+          let command = 'publish-extractor '
           switch('${{ inputs.command }}') {
             case 'publish':
-              let command = 'publish-extractor publish '
+              command += 'publish '
               if ('${{ inputs.version }}'.trim() == '') {
                 core.error("Version is required")
                 process.exit(1)
@@ -68,16 +73,15 @@ runs:
               if ('${{ inputs.only-artifacts }}'.trim() === 'true') {
                 command += '--only-artifacts ${{ inputs.only-artifacts }}'
               }
-              return command
-              break;
+              break
 
             case 'sync':
-              break;
+              break
 
             case 'validate':
-              break;
+              break
             case 'run-schema':
-              break;
+              break
             case 'schema': 
               break;
             default:
