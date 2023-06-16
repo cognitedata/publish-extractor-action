@@ -21,5 +21,5 @@ jobs:
         with:
           command: validate
           manifest_path: manifest.yml
-          artifactory_username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
-          artifactory_password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
+          artifactory-username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
+          artifactory-password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
