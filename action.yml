@@ -35,10 +35,6 @@ inputs:
     description: Abort when a release exists instead of updating the release
   manifest-dir:
     description: Path to directory where manifest files are
-outputs:
-  build-command:
-    description: Some desc
-    value: ${{ steps.build-command.outputs.result }}
 runs:
   using: composite
   steps:
@@ -77,6 +73,11 @@ runs:
       run: |
         pip install cognite-extractor-publisher --extra-index-url "https://${{ inputs.artifactory-username }}:${{ inputs.artifactory-password }}@cognite.jfrog.io/cognite/api/pypi/snakepit/simple"
         bash -c ${{ steps.build-command.outputs.result }}
+
+    - name: Check installed
+      if: runner.os == 'Linux'
+      run: pip list
+      shell: bash
 
     - name: Install publisher
       shell: bash
