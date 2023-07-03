@@ -1,0 +1,51 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+jobs:
+  tag-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    steps:
+      - name: checkout main
+        uses: actions/checkout@v3
+
+      - name: get version
+        id: get-version
+        run: echo "version=$(cat .version)" >> $GITHUB_OUTPUT
+
+  check-exists:
+    runs-on: ubuntu-latest
+    needs:
+      - tag-version
+    outputs:
+      release-exists: ${{ steps.release-exists.outputs.exists }}
+    steps:
+      - name: checkout main
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: main
+      - name: check exists
+        id: release-exists
+        run: echo "exists=$(git tag --list 'v${{ needs.tag-version.outputs.version }}' | wc -l | sed s/\ //g)" >> $GITHUB_OUTPUT
+
+  tag-release:
+    runs-on: ubuntu-latest
+    needs:
+      - tag-version
+      - check-exists
+    steps:
+      - name: create release
+        if: needs.check-exists.outputs.release-exists == 0
+        uses: actions/create-release@v1
+        id: github-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: v${{ needs.tag-version.outputs.version }}
+          release_name: Cognite Extractor Publisher version ${{ needs.tag-version.outputs.version }}
+          draft: false
+          prerelease: false

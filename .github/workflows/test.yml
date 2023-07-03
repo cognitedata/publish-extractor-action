@@ -1,4 +1,4 @@
-name: Publish extractors
+name: Tests
 on:
   pull_request:
     branches:
@@ -7,7 +7,7 @@ jobs:
   testing:
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11']
+        python-version: ['3.9', '3.10', '3.11', '3.12']
         os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
       fail-fast: true
     runs-on: ${{ matrix.os }}
@@ -29,5 +29,5 @@ jobs:
           python-version: ${{ matrix.python-version }}
           command: validate
           manifest-path: manifest.yml
-          artifactory-username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
-          artifactory-password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
+          artifactory-username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER_PUBLIC_REPOS }}
+          artifactory-password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_PUBLIC_REPOS }}
