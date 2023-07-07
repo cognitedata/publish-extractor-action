@@ -1,4 +1,4 @@
-name: Release
+name: Cognite Extractor Publisher
 on:
   push:
     branches:
