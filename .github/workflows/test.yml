@@ -29,5 +29,5 @@ jobs:
           python-version: ${{ matrix.python-version }}
           command: validate
           manifest-path: manifest.yml
-          artifactory-username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER }}
-          artifactory-password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN }}
+          artifactory-username: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_USER_PUBLIC_REPOS }}
+          artifactory-password: ${{ secrets.ARTIFACTORY_READONLY_TOKEN_PUBLIC_REPOS }}
