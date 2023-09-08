@@ -10,7 +10,7 @@ jobs:
       version: ${{ steps.get-version.outputs.version }}
     steps:
       - name: checkout main
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: get version
         id: get-version
@@ -24,7 +24,7 @@ jobs:
       release-exists: ${{ steps.release-exists.outputs.exists }}
     steps:
       - name: checkout main
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: main
